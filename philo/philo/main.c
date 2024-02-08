@@ -3,47 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 15:00:26 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/02/01 13:52:24 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:27:55 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	philo(t_data *data)
+void	alone(t_data *data)
+{
+	print_think(&data->philo[0]);
+	ft_usleep(data->time_to_die);
+	print_dead(&data->philo[0]);
+}
+
+void	start(t_data *data)
 {
 	int	i;
 
 	data->t_start = millitimestamp();
-	i = -1;
-	while (++i < data->nb_philo)
+	if (data->nb_philo == 1)
+		return (alone(data));
+	i = 0;
+	while (i < data->nb_philo)
 	{
-		data->philo[i].n = i + 1;
-		data->philo[i].last_eat = 0;
-		data->philo[i].right_fork = NULL;
-		data->philo[i].info = data;
-		data->philo[i].n_eat = 0;
-		pthread_mutex_init(data->philo[i].left_fork, NULL);
-		if (i == data->nb_philo - 1)
-			data->philo[i].left_fork = data->philo[0].right_fork;
-		else
-			data->philo[i].left_fork = data->philo[i + 1].right_fork;
-		if (pthread_create(&data->philo[i].thread_id, NULL,
-				&philo_life, &data->philo[i]) != 0)
-			return (-1);
+		pthread_create(&data->threads[i], NULL, &routine, &data->philo[i]);
+		i++;
 	}
-	return (0);
+	data->t_start = millitimestamp();
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_join(data->threads[i], NULL);
+		i++;
+	}
+}
+
+void	end(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	if (data->forks)
+		free (data->forks);
+	if (data->threads)
+		free (data->threads);
+	if (data->philo)
+		free (data->philo);
 }
 
 int	main(int ac, char **argv)
 {
 	t_data	*data;
 
-	if (ac != 5 && ac != 6)
-		printf("%s", "Invalid number of arguments !");
-	if (init_values(&data, argv) == 1)
-		return (0);
-	philo(data);
+	if (check_args(ac, argv))
+		print_error();
+	init_values(&data, ac, argv);
+	init_philos(&data);
+	init_forks(&data);
+	start(&data);
+	end(&data);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 15:10:10 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/01/31 15:27:59 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/02/02 17:12:50 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,11 @@ int	ft_isdigit(int c)
 
 void	ft_usleep(int ms)
 {
-	long int	time;
+	usleep(ms * 1000);
+}
 
-	time = millitimestamp();
-	while (millitimestamp() - time < ms)
-		usleep(ms / 10);
+void	print_error(void)
+{
+	printf("%s", "Invalid arguments !");
+	exit (EXIT_FAILURE);
 }
