@@ -6,7 +6,7 @@
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 15:00:26 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/02/08 18:27:55 by laura            ###   ########.fr       */
+/*   Updated: 2024/05/11 15:28:05 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ int	main(int ac, char **argv)
 {
 	t_data	*data;
 
+	data = NULL;
 	if (check_args(ac, argv))
 		print_error();
-	init_values(&data, ac, argv);
-	init_philos(&data);
-	init_forks(&data);
-	start(&data);
-	end(&data);
+	init_values(data, ac, argv);
+	init_philos(data);
+	init_forks(data);
+	start(data);
+	end(data);
 	return (0);
 }

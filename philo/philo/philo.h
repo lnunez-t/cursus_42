@@ -6,7 +6,7 @@
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 15:00:29 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/02/08 18:24:57 by laura            ###   ########.fr       */
+/*   Updated: 2024/05/11 15:27:44 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void				print_sleep(t_philo *philo);
 void				print_forks(t_philo *philo);
 void				start(t_data *data);
 void				*routine(void *philo);
-void				sleep(t_philo *philo);
+void				ft_sleep(t_philo *philo);
 void				leave_fork(t_philo *philo);
 void			    *check_death(void *void_data);
 int					eat_enough(t_data *data);
