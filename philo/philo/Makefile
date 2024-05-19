@@ -1,7 +1,7 @@
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
-SRC = main.c init.c philo_utils.c routine.c checks.c print_actions.c
+SRC = main.c init.c philo_utils.c routine.c time.c print_actions.c
 INCLUDES = messages.h philo.h
 OBJ = ${SRC:.c=.o}
 

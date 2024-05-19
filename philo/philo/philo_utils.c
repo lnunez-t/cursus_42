@@ -6,61 +6,90 @@
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 15:10:10 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/02/02 17:12:50 by laura            ###   ########.fr       */
+/*   Updated: 2024/05/19 17:05:55 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	ft_atoi(const char *nptr)
+static int	ft_isdigit(int nbr)
 {
-	int		sign;
-	int		nb;
-	size_t	i;
+	if (nbr >= '0' && nbr <= '9')
+		return (FAILURE);
+	return (SUCCESS);
+}
+
+int	check_digit(char **str)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (str[i])
+	{
+		j = 0;
+		while (str[i][j])
+		{
+			if (!ft_isdigit(str[i][j]))
+				return (FAILURE);
+			j++;
+		}
+		i++;
+	}
+	return (SUCCESS);
+}
+
+int	ft_atoi(const char *str)
+{
+	int		i;
+	long	res;
 
 	i = 0;
-	sign = 1;
-	nb = 0;
-	while ((nptr[i] > 8 && nptr[i] < 14) || nptr[i] == 32)
+	res = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' '))
 		i++;
-	if (nptr[i] == '-' || nptr[i] == '+')
+	if (str[i] == '-')
+		return (FAILURE);
+	else if (str[i] == '+')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (nptr[i] == '-')
-			sign *= -1;
+		res = (res * 10) + (str[i] - '0');
 		i++;
 	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
+	if (res > 2147483647)
+		return (FAILURE);
+	return (res);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	size_t	i;
+	size_t	j;
+	char	*ptr;
+
+	i = 0;
+	j = count * size;
+	if (size >= SIZE_MAX / count)
+		return (NULL);
+	ptr = malloc(count * size);
+	if (!ptr)
+		return (NULL);
+	while (i < j)
 	{
-		nb = nb * 10 + (nptr[i] - '0');
+		ptr[i] = '\0';
 		i++;
 	}
-	return (nb * sign);
+	return (ptr);
 }
 
-long long	millitimestamp(void)
+void	printer(t_philo *philo, char *str)
 {
-	struct timeval	timeval;
-	long long		millitime;
-
-	gettimeofday(&timeval, NULL);
-	millitime = timeval.tv_sec * 1000 + timeval.tv_usec / 1000;
-	return (millitime);
-}
-
-int	ft_isdigit(int c)
-{
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
-}
-
-void	ft_usleep(int ms)
-{
-	usleep(ms * 1000);
-}
-
-void	print_error(void)
-{
-	printf("%s", "Invalid arguments !");
-	exit (EXIT_FAILURE);
+	if (philo->args->fnsh_game == false)
+	{
+		pthread_mutex_lock(&philo->args->checks);
+		printf("%lld\t | \t%d\t |    %s\n",
+			timestamp(philo->args), philo->id_num, str);
+		pthread_mutex_unlock(&philo->args->checks);
+	}
 }
