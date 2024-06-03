@@ -6,7 +6,7 @@
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 08:53:09 by laura             #+#    #+#             */
-/*   Updated: 2024/05/08 19:57:43 by laura            ###   ########.fr       */
+/*   Updated: 2024/06/01 07:20:39 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,13 @@ void PhoneBook::addContacts(void)
 
 void PhoneBook::printContacts(void) const
 {
+    size_t i = 0;
     std::cout << "PHONEBOOK CONTACTS" << std::endl;
-    for (size_t i = 0; i < 8; i++)
+    while (i < 8)
+    {
         this->_contacts[i].view(i);
+        i++;
+    }
     std::cout << std::endl;
 }
 
@@ -46,7 +50,7 @@ int PhoneBook::_readInput() const
 {
     int input = -1;
     bool valid = false;
-    do
+    while (!valid)
     {
         std::cout << "Enter the contact index" << std::flush;
         std::cin >> input;
@@ -57,7 +61,7 @@ int PhoneBook::_readInput() const
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
             std::cout << "Invalid index, please re-enter" << std::endl;
         }
-    } while (!valid);
+    }
     return (input);
 }
 

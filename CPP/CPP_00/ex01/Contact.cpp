@@ -6,7 +6,7 @@
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 09:08:39 by laura             #+#    #+#             */
-/*   Updated: 2024/05/08 19:31:52 by laura            ###   ########.fr       */
+/*   Updated: 2024/06/01 07:19:12 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ std::string Contact::_getInput(std::string str) const
 {
     std::string input = "";
     bool valid = false;
-    do
+    while (!valid)
     {
         std::cout << str << std::flush;
         std::getline(std::cin, input);
@@ -30,7 +30,7 @@ std::string Contact::_getInput(std::string str) const
             std::cin.clear();
             std::cout << "Invalid input, try again" << std::endl;
         }
-    } while (!valid);
+    }
     return (input);
 }
 

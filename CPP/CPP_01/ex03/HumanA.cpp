@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Zombie.cpp                                         :+:      :+:    :+:   */
+/*   HumanA.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 15:57:21 by laura             #+#    #+#             */
-/*   Updated: 2024/05/31 13:03:59 by laura            ###   ########.fr       */
+/*   Created: 2024/06/01 07:56:29 by laura             #+#    #+#             */
+/*   Updated: 2024/06/01 08:36:39 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include "HumanA.hpp"
 
-Zombie::Zombie(std::string name)
-{
-    this->_name = name; 
-}
+HumanA::HumanA(std::string name, Weapon &weapon) : name(name), weapon(weapon) 
+{}
 
-Zombie::~Zombie()
-{
-    std::cout << "Zombie " << this->_name << " has been destroyed." << std::endl;
-}
+HumanA::~HumanA()
+{}
 
-void    Zombie::announce(void)
+void    HumanA::attack(void) const 
 {
-    std::cout << this->_name << ": BraiiiiiiinnnzzzZ..." << std::endl;
+    if (this->weapon.getType() != "") 
+        std::cout << name << " attacks with their " << this->weapon.getType() << std::endl;
+    else 
+        std::cout << name << " doesn't have a weapon to attack." << std::endl;
 }

@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Zombie.cpp                                         :+:      :+:    :+:   */
+/*   HumanB.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/11 15:57:21 by laura             #+#    #+#             */
-/*   Updated: 2024/05/31 13:03:59 by laura            ###   ########.fr       */
+/*   Created: 2024/06/01 07:56:39 by laura             #+#    #+#             */
+/*   Updated: 2024/06/01 08:32:02 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+# include "Weapon.hpp"
 
-Zombie::Zombie(std::string name)
+class HumanB
 {
-    this->_name = name; 
-}
-
-Zombie::~Zombie()
-{
-    std::cout << "Zombie " << this->_name << " has been destroyed." << std::endl;
-}
-
-void    Zombie::announce(void)
-{
-    std::cout << this->_name << ": BraiiiiiiinnnzzzZ..." << std::endl;
-}
+private:
+    std::string name;
+    Weapon *weapon;
+public:
+    HumanB(std::string name);
+    ~HumanB();
+    void attack(void) const;
+    void setWeapon(Weapon &weapon);
+};

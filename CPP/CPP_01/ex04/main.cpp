@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   megaphone.cpp                                      :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/27 15:59:12 by laura             #+#    #+#             */
-/*   Updated: 2024/06/01 07:18:24 by laura            ###   ########.fr       */
+/*   Created: 2024/06/01 08:47:45 by laura             #+#    #+#             */
+/*   Updated: 2024/06/01 08:57:13 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
-int main(int ac, char **argv)
+int main(int ac, char **av)
 {
-    int i = 1;
-    int j = 0;
-    if (ac == 1)
-        std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *";
+    if (ac != 4)
+    {
+        std::cerr << "Use : ./Sed <filename> <s1> <s2>." << std::endl;
+        return (EXIT_FAILURE);
+    }
     else
     {
-        while (argv[i]) 
-        {
-            while (argv[i][j])
-            {
-                std::cout << (char) toupper(argv[i][j]);
-                j++;
-            }
-            if (i < ac - 1)
-                std::cout << ' ';
-            i++;
-        }
+        
     }
-    std::cout << std::endl;
-    return (0);
+
+    return (EXIT_SUCCESS);
 }

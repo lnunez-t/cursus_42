@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: laura <laura@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/11 16:59:18 by laura             #+#    #+#              #
-#    Updated: 2024/05/31 13:17:10 by laura            ###   ########.fr        #
+#    Created: 2024/06/01 07:13:13 by laura             #+#    #+#              #
+#    Updated: 2024/06/01 07:13:31 by laura            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ FLAGS = -Wall -Wextra -Werror -std=c++98
 
 OBJDIR = .objFiles
 
-FILES = main Zombie newZombie randomChump
+FILES = main Zombie zombieHorde
 
 SRC = $(FILES:=.cpp)
 OBJ = $(addprefix $(OBJDIR)/, $(FILES:=.o))

@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: laura <laura@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/11 16:59:18 by laura             #+#    #+#              #
-#    Updated: 2024/05/31 13:17:10 by laura            ###   ########.fr        #
+#    Created: 2024/06/01 07:32:17 by laura             #+#    #+#              #
+#    Updated: 2024/06/01 07:45:24 by laura            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,20 +17,19 @@ FLAGS = -Wall -Wextra -Werror -std=c++98
 
 OBJDIR = .objFiles
 
-FILES = main Zombie newZombie randomChump
+FILES = main
 
 SRC = $(FILES:=.cpp)
 OBJ = $(addprefix $(OBJDIR)/, $(FILES:=.o))
-HEADER = Zombie.hpp
 
 .PHONY: all clean fclean re
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(HEADER)
+$(NAME): $(OBJ)
 	@$(CC) $(OBJ) -o $(NAME)
 
-$(OBJDIR)/%.o: %.cpp $(HEADER)
+$(OBJDIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	@$(CC) $(FLAGS) -c $< -o $@
 

@@ -5,23 +5,23 @@
 #                                                     +:+ +:+         +:+      #
 #    By: laura <laura@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/05/11 16:59:18 by laura             #+#    #+#              #
-#    Updated: 2024/05/31 13:17:10 by laura            ###   ########.fr        #
+#    Created: 2024/06/01 07:55:33 by laura             #+#    #+#              #
+#    Updated: 2024/06/01 08:41:12 by laura            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Zombie
+NAME = Useless_violence
 
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
 
 OBJDIR = .objFiles
 
-FILES = main Zombie newZombie randomChump
+FILES = main HumanA HumanB Weapon
 
 SRC = $(FILES:=.cpp)
 OBJ = $(addprefix $(OBJDIR)/, $(FILES:=.o))
-HEADER = Zombie.hpp
+HEADER = HumanA.hpp HumanB.hpp Weapon.hpp
 
 .PHONY: all clean fclean re
 
