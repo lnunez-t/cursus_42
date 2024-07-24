@@ -6,7 +6,7 @@
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 10:15:01 by laura             #+#    #+#             */
-/*   Updated: 2024/07/11 10:43:23 by laura            ###   ########.fr       */
+/*   Updated: 2024/07/24 11:07:20 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ Bureaucrat::~Bureaucrat()
 {
 }
 
-Bureaucrat& Bureaucrat::operator=(const Bureaucrat& rhs)
+Bureaucrat& Bureaucrat::operator=(const Bureaucrat& cpy)
 {
-    if (this != &rhs)
+    if (this != &cpy)
     {
-        grade = rhs.getGrade();
+        grade = cpy.getGrade();
     }
     return (*this);
 }
@@ -61,8 +61,8 @@ void Bureaucrat::decGrade()
     grade++;
 }
 
-std::ostream& operator<<(std::ostream& o, const Bureaucrat& rhs)
+std::ostream& operator<<(std::ostream& o, const Bureaucrat& cpy)
 {
-    o << rhs.getName() << ", bureaucrat grade " << rhs.getGrade();
+    o << cpy.getName() << ", bureaucrat grade " << cpy.getGrade();
     return (o);
 }

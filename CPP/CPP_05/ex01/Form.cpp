@@ -6,7 +6,7 @@
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 10:59:08 by laura             #+#    #+#             */
-/*   Updated: 2024/07/13 12:44:28 by laura            ###   ########.fr       */
+/*   Updated: 2024/07/24 11:08:11 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ Form::~Form()
 {
 }
 
-Form& Form::operator=(const Form& rhs)
+Form& Form::operator=(const Form& cpy)
 {
-    if (this != &rhs)
+    if (this != &cpy)
     {
-        _signed = rhs.getSigned();
+        _signed = cpy.getSigned();
     }
     return (*this);
 }
@@ -64,11 +64,11 @@ void Form::beSigned(const Bureaucrat& bureaucrat)
     _signed = true;
 }
 
-std::ostream& operator<<(std::ostream& o, const Form& rhs)
+std::ostream& operator<<(std::ostream& o, const Form& cpy)
 {
     o << " Form informations " << std ::endl;
-    o << "Form name: " << rhs.getName() << std::endl;
-    o << "Grade to sign: " << rhs.getGradeSign() << std::endl;
-    o << "Grade to execute: " << rhs.getGradeExec() << std::endl;
+    o << "Form name: " << cpy.getName() << std::endl;
+    o << "Grade to sign: " << cpy.getGradeSign() << std::endl;
+    o << "Grade to execute: " << cpy.getGradeExec() << std::endl;
     return (o);
 }

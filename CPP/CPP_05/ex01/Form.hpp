@@ -6,7 +6,7 @@
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 10:59:01 by laura             #+#    #+#             */
-/*   Updated: 2024/07/11 11:29:23 by laura            ###   ########.fr       */
+/*   Updated: 2024/07/24 11:08:23 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ public:
     Form(const std::string& name, int gradeSign);
     Form(const std::string& name, int gradeSign, int gradeExec);
     Form(const Form& cpy);
-    Form& operator=(const Form& rhs);
+    Form& operator=(const Form& cpy);
     ~Form();
 
     std::string getName() const;
@@ -60,7 +60,7 @@ public:
     };
 };
 
-std::ostream& operator<<(std::ostream& o, const Form& rhs);
+std::ostream& operator<<(std::ostream& o, const Form& cpy);
 
 
 #endif
