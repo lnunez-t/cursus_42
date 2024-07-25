@@ -6,7 +6,7 @@
 /*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 14:17:33 by laura             #+#    #+#             */
-/*   Updated: 2024/07/24 12:03:54 by laura            ###   ########.fr       */
+/*   Updated: 2024/07/25 16:07:47 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,3 @@ void ShrubberyCreationForm::execute(const Bureaucrat& executor) const
     file << "##########################################" << std::endl;
     file.close();
 }
-
