@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Span.hpp                                           :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/27 15:11:32 by laura             #+#    #+#             */
-/*   Updated: 2024/07/30 13:54:11 by lnunez-t         ###   ########.fr       */
+/*   Created: 2024/07/31 12:27:41 by lnunez-t          #+#    #+#             */
+/*   Updated: 2024/07/31 13:25:18 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPAN_HPP
-# define SPAN_HPP
+#include "BitcoinExchange.hpp"
 
-# include <iostream>
-# include <list>
-# include <exception>
-
-class Span
+int main(int ac, char **av)
 {
-private:
-    std::list<int> _list;
-    unsigned int N;
-
-    Span(void);
-public:
-    Span(unsigned int N);
-    Span(const Span& cpy);
-    ~Span();
-
-    Span& operator=(const Span& cpy);
-
-    void addNumber(int nb);
-    unsigned int shortestSpan();
-    unsigned int longestSpan();
-};
-
-
-#endif
+    if (ac != 2)
+    {
+        std::cout << "Error: could not open file." << std::endl;
+        return (1);
+    }
+    
+}
