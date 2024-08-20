@@ -6,7 +6,7 @@
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:28:02 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/08/20 15:36:37 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:31:19 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,5 +264,67 @@ bool BitcoinExchange::ft_alldigit(const std::string& str, int (*isdigit)(int))
 
 void BitcoinExchange::run(const std::string &filename)
 {
+    std::ifstream file(filename);
+    std::string line;
+
+    if (!file.is_open())
+    {
+        std::cout << "Error : file does not exist" << std::endl;
+        exit (1);
+    }
+
+    if (file.peek() == std::ifstream::traits_type::eof())
+    {
+        std::cout << "Error : file is empty" << std::endl;
+        exit (1);
+    }
+
+    std::getline(file, line);
+    if (line != "date | value")
+    {
+        std::cout << "Error : invalid file format" << std::endl;
+        exit (1);
+    }
     
+    while (std::getline(file, line))
+    {
+        size_t delim = line.find('|');
+        if (delim == std::string::npos)
+        {
+            std::cout << "Error : bad input : " << line << std::endl;
+            continue;
+        }
+
+        std::string date = trim(line.substr(0, delim));
+        std::string value = trim(line.substr(delim + 1));
+
+        try
+        {
+            if (!validDate(date))
+                throw std::invalid_argument("invalid date: " + (date.empty() ? "\"\"" : "'" + date + "'"));
+            if (value.empty())
+                throw std::invalid_argument("invalid value: " + (value.empty() ? "\"\"" : "'" + value + "'"));
+            validValue(value);
+
+            std::map<std::string, std::string>::iterator it;
+            std::string previousDate = date;
+            it = data.find(date);
+
+            while (it == data.end())
+            {
+                const std::string& currentDate = previousDate;
+                previousDate = prevDate(currentDate);
+                it = data.find(previousDate);
+            }
+
+            std::cout << date << " => " << value << " = " << ft_stod(it->second) * ft_stod(value) << std::endl;
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << "Error: " << e.what() << std::endl;
+        }
+        
+    }
+
+    file.close();
 }
