@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:05:04 by laura             #+#    #+#             */
-/*   Updated: 2024/07/24 16:04:23 by laura            ###   ########.fr       */
+/*   Updated: 2024/08/22 14:06:27 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <iostream>
 # include <limits>
 # include <fstream>
+# include <string>
+# include <cstdlib>
 
 enum e_type
 {
@@ -30,15 +32,15 @@ enum e_type
 class ScalarConverter
 {
 private:
-    char c;
-    int n;
-    float f;
-    double d;
+    static char c;
+    static long n;
+    static float f;
+    static double d;
 
-    bool impossible;
+    static bool impossible;
 
-    std::string str;
-    e_type type;
+    static std::string str;
+    static e_type type;
 public:
     ScalarConverter();
     ScalarConverter(const ScalarConverter& cpy);
@@ -46,7 +48,7 @@ public:
 
     ScalarConverter& operator=(const ScalarConverter& cpy);
 
-    void convert(void);
+    static void convert(void);
 
     char getC(void) const;
     void setC(char c);
@@ -70,8 +72,6 @@ public:
     bool isInt(void) const;
     bool isFloat(void) const;
     bool isDouble(void) const;
-
-    bool isImpossible(void);
     
     void printChar(void) const;
     void printInt(void) const;

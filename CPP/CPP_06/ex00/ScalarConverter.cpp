@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ScalarConverter.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:05:18 by laura             #+#    #+#             */
-/*   Updated: 2024/07/24 17:59:13 by laura            ###   ########.fr       */
+/*   Updated: 2024/08/22 14:54:51 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
+
+char ScalarConverter::c;
+long ScalarConverter::n;
+float ScalarConverter::f;
+double ScalarConverter::d;
+std::string ScalarConverter::str;
+e_type ScalarConverter::type;
+bool ScalarConverter::impossible;
 
 ScalarConverter::ScalarConverter(void)
 {
@@ -61,9 +69,10 @@ bool ScalarConverter::isLiterals(void) const
 
 void ScalarConverter::printChar(void) const
 {
-    if (this->isLiterals() || (!std::isprint(n) && (n >= 127)))
+    long i = std::atoll(str.c_str());
+    if (this->isLiterals())
         std::cout << "impossible";
-    else if (!std::isprint(this->n))
+    else if ((i < 32 && i >= 0) || (i == 127) || i < 0 || i > 127)
         std::cout << "Non displayable";
     else
         std::cout << "'" << getC() << "'";
@@ -82,7 +91,8 @@ void ScalarConverter::setI(int n)
 
 void ScalarConverter::printInt(void) const
 {
-    if (this->isLiterals() || (!std::isprint(n) && (n >= 127)))
+    long i = std::atoll(str.c_str());
+    if (this->isLiterals() || (i > std::numeric_limits<int>::max() && i < std::numeric_limits<int>::min() && str.length() <= 10))
         std::cout << "impossible";
     else
         std::cout << getI();
@@ -107,6 +117,11 @@ double ScalarConverter::getD(void) const
 void ScalarConverter::setD(double d)
 {
     this->d = d;
+}
+
+std::string ScalarConverter::getStr(void) const
+{
+    return (this->str);
 }
 
 void ScalarConverter::setStr(std::string str)
@@ -135,10 +150,14 @@ bool ScalarConverter::isInt(void) const
         j++;
     for (int i = j; i < (int) str.length(); i++)
     {
-        if (!std::isdigit(str[i]))
+        if (!std::isdigit(str[i]) || i > 10)
             return (false);
     }
-    return (true);
+    long tmp = std::atol(str.c_str());
+	if (tmp <= std::numeric_limits<int>::max() && tmp >= std::numeric_limits<int>::min())
+		return (true);
+	else
+		return (false);
 }
 
 bool ScalarConverter::isDouble(void) const
@@ -162,7 +181,7 @@ bool ScalarConverter::isDouble(void) const
 
 bool ScalarConverter::isFloat(void) const
 {
-    if (str.find('.') == std::string::npos || str.back() != 'f'
+    if (str.find('.') == std::string::npos || str[str.size() - 1] != 'f'
     || str.find('.') == 0 || str.find('.') == str.length() - 2)
         return (false);
     int found = 0;
@@ -235,29 +254,23 @@ void ScalarConverter::setType(void)
         type = NONE;
 }
 
-bool ScalarConverter::isImpossible(void)
+void ScalarConverter::convert(void)
 {
     try
     {
         if (type == INT)
-            n = std::stoi(str);
+            n = std::atol(str.c_str());
         else if (type == FLOAT)
-            f = std::stof(str);
+            f = static_cast<float>(std::atof(str.c_str()));
         else if (type == DOUBLE)
-            d = std::stod(str);
+            d = std::atof(str.c_str());
     }
     catch(std::exception& e)
     {
         impossible = true;
-        return (true);
     }
-    return (false);
-    
-}
-
-void ScalarConverter::convert(void)
-{
-    if (isImpossible())
+    impossible = false;
+    if (impossible)
         return;
     switch (type)
     {
@@ -268,19 +281,19 @@ void ScalarConverter::convert(void)
             d = static_cast<double>(c);
             break;
         case INT:
-            n = std::stoi(str);
+            n = std::atol(str.c_str());
             f = static_cast<float>(n);
             d = static_cast<double>(n);
             c = static_cast<char>(n);
             break;
         case FLOAT:
-            f = std::stof(str);
+            f = static_cast<float>(std::atof(str.c_str()));
             n = static_cast<int>(f);
             d = static_cast<double>(f);
             c = static_cast<char>(f);
             break;
         case DOUBLE:
-            d = std::stod(str);
+            d = std::atof(str.c_str());
             n = static_cast<int>(d);
             f = static_cast<float>(d);
             c = static_cast<char>(d);
