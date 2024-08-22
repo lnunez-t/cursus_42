@@ -6,7 +6,7 @@
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:28:02 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/08/20 16:31:19 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/08/22 15:08:45 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void BitcoinExchange::validValue(const std::string& str)
 
 bool BitcoinExchange::validFile(const std::string& filename)
 {
-    std::fstream file(filename);
+    std::fstream file(filename.c_str());
 
     bool exists = file.good();
     file.close();
@@ -131,7 +131,7 @@ bool BitcoinExchange::validFile(const std::string& filename)
 
 bool BitcoinExchange::emptyFile(const std::string& filename)
 {
-    std::ifstream file(filename);
+    std::ifstream file(filename.c_str());
 
     bool isEmpty = file.peek() == std::ifstream::traits_type::eof();
 
@@ -264,7 +264,7 @@ bool BitcoinExchange::ft_alldigit(const std::string& str, int (*isdigit)(int))
 
 void BitcoinExchange::run(const std::string &filename)
 {
-    std::ifstream file(filename);
+    std::ifstream file(filename.c_str());
     std::string line;
 
     if (!file.is_open())
