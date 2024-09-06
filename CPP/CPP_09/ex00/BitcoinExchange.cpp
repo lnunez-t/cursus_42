@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:28:02 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/08/22 15:08:45 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/08/31 12:16:58 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void BitcoinExchange::validValue(const std::string& str)
     if (value < 0)
         throw std::invalid_argument("not a positive number");
     if (value > 1000.0)
-        throw std::invalid_argument("number too high");
+        throw std::invalid_argument("too large a number");
 }
 
 bool BitcoinExchange::validFile(const std::string& filename)
@@ -297,7 +297,6 @@ void BitcoinExchange::run(const std::string &filename)
 
         std::string date = trim(line.substr(0, delim));
         std::string value = trim(line.substr(delim + 1));
-
         try
         {
             if (!validDate(date))
@@ -305,12 +304,12 @@ void BitcoinExchange::run(const std::string &filename)
             if (value.empty())
                 throw std::invalid_argument("invalid value: " + (value.empty() ? "\"\"" : "'" + value + "'"));
             validValue(value);
-
+            
             std::map<std::string, std::string>::iterator it;
             std::string previousDate = date;
             it = data.find(date);
 
-            while (it == data.end())
+            while (it != data.end())
             {
                 const std::string& currentDate = previousDate;
                 previousDate = prevDate(currentDate);
