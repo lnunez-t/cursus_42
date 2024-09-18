@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:28:02 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/08/31 12:16:58 by laura            ###   ########.fr       */
+/*   Updated: 2024/09/18 15:20:03 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void BitcoinExchange::validValue(const std::string& str)
     }
     catch(const std::exception& e)
     {
-        throw std::invalid_argument(str + "is not a number");
+        throw std::invalid_argument(str + " is not a number");
     }
     if (value < 0)
         throw std::invalid_argument("not a positive number");
@@ -291,7 +291,7 @@ void BitcoinExchange::run(const std::string &filename)
         size_t delim = line.find('|');
         if (delim == std::string::npos)
         {
-            std::cout << "Error : bad input : " << line << std::endl;
+            std::cout << "Error : bad input => " << line << std::endl;
             continue;
         }
 
@@ -307,15 +307,15 @@ void BitcoinExchange::run(const std::string &filename)
             
             std::map<std::string, std::string>::iterator it;
             std::string previousDate = date;
+
             it = data.find(date);
 
-            while (it != data.end())
+            while (it == data.end())
             {
                 const std::string& currentDate = previousDate;
                 previousDate = prevDate(currentDate);
                 it = data.find(previousDate);
             }
-
             std::cout << date << " => " << value << " = " << ft_stod(it->second) * ft_stod(value) << std::endl;
         }
         catch(const std::exception& e)

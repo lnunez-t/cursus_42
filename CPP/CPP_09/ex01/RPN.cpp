@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
+/*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 12:21:15 by laura             #+#    #+#             */
-/*   Updated: 2024/09/06 09:11:13 by laura            ###   ########.fr       */
+/*   Updated: 2024/09/18 16:06:15 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,17 @@ void RPN::run(std::string str)
                 if (this->_stack.size() < 2)
                     throw (std::invalid_argument("Not enough operands"));
                 
-                int a = this->_stack.top();
+                float a = this->_stack.top();
                 this->_stack.pop();
-                int b = this->_stack.top();
+                float b = this->_stack.top();
                 this->_stack.pop();
 
                 this->_stack.push((this->*ops[index].f)(b, a));
+            
             }
             else
-                this->_stack.push(ft_stoi(ft_all(str, &std::isdigit)));
+                this->_stack.push(ft_stof(ft_all(str, &std::isdigit)));
+            
         }
         
         if (this->_stack.size() != 1)
@@ -77,30 +79,30 @@ void RPN::run(std::string str)
     ss.clear();
 }
 
-int RPN::add(int a, int b)
+float RPN::add(float a, float b)
 {
     return (a + b);
 }
 
-int RPN::sub(int a, int b)
+float RPN::sub(float a, float b)
 {
     return (a - b);
 }
 
-int RPN::mult(int a, int b)
+float RPN::mult(float a, float b)
 {
     return (a * b);
 }
 
-int RPN::div(int a, int b)
+float RPN::div(float a, float b)
 {
     if (b == 0)
         throw (std::invalid_argument("Division by zero"));
     
-    return (a / b);
+    return (static_cast<float>(a) / b);
 }
 
-int RPN::pow(int a, int b)
+float RPN::pow(float a, float b)
 {
     return (std::pow(a, b));
 }
@@ -116,10 +118,10 @@ int RPN::_index(std::string str, std::string *arr, int size)
     return (-1);
 }
 
-int RPN::ft_stoi(const std::string& str)
+float RPN::ft_stof(const std::string& str)
 {
     std::stringstream ss(str);
-    int result;
+    float result;
 
     ss >> result;
 
@@ -151,6 +153,5 @@ std::string RPN::ft_all(const std::string& str, int (*isDigit)(int))
 
     if (!valid)
         throw (std::invalid_argument("not a number"));
-
     return (str);
 }

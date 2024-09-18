@@ -6,7 +6,7 @@
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:28:39 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/08/20 13:23:32 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/09/18 10:55:11 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <fstream>
 # include <sstream>
 # include <algorithm>
+# include <iomanip>
 
 typedef std::string str;
 
