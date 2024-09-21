@@ -6,7 +6,7 @@
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 09:16:01 by laura             #+#    #+#             */
-/*   Updated: 2024/09/19 15:28:50 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/09/21 15:18:59 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ public:
     typedef std::pair <value_type, value_type> type_pair;
     typedef std::vector<type_pair> vect;
 private:
-    T _data;
-    value_type last;
-    double time;
+    T _data; //contient les donnees
+    value_type last; //garde une trace du dernier element si nb impair d elements
+    double time; //temps pris pour le tri
 
     bool isValid(const std::string& str);
     int ft_stoa(const char *str);
@@ -43,7 +43,7 @@ private:
     int bin_search(int target);
 public:
     PmergeMe();
-    explicit PmergeMe(char **data);
+    explicit PmergeMe(char **data); //explicit empeche la conversion implicite du compilateur de data en objet PmergeMe, plus securise car evite des conversions accidentelles
     PmergeMe(const PmergeMe& cpy);
     PmergeMe& operator=(const PmergeMe &oth);
     ~PmergeMe();

@@ -6,12 +6,13 @@
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 09:16:04 by laura             #+#    #+#             */
-/*   Updated: 2024/09/19 15:21:57 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/09/21 15:30:02 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
+//Obtenir les noms respectifs des conteneurs utilises
 template <typename T>
 std::string getContainerName();
 
@@ -24,6 +25,7 @@ std::string getContainerName<std::deque<int> > () {return ("deque<int>");}
 template <typename T>
 PmergeMe<T>::PmergeMe() : _data(), last(-1), time(0) {}
 
+//Verifie la validite des entrees avant de les convertir en entier et de les inserer dans le conteneur
 template <typename T>
 PmergeMe<T>::PmergeMe(char **data) : _data()
 {
@@ -33,7 +35,7 @@ PmergeMe<T>::PmergeMe(char **data) : _data()
     for (size_t i = 0; data[i]; i++)
     {
         if (!isValid(data[i]))
-            throw(std::invalid_argument("Error : not a valid number"));
+            throw(std::invalid_argument("Error"));
         _data.push_back(ft_stoa(data[i]));
     }
 }
@@ -59,24 +61,25 @@ PmergeMe<T> &PmergeMe<T>::operator=(const PmergeMe& oth)
     return (*this);
 }
 
+//Genere une sequence d indices bases sur la formule de Jacobsthal. Il determine les positions d insertion des paires une fois triees
 template <typename T>
 int_vect PmergeMe<T>::index(size_t n)
 {
     int_vect inds;
     int v[n + 1];
 
-    v[0] = 0;
-    v[1] = 1;
+    v[0] = 0; //condition initiale
+    v[1] = 1; //condition initiale
     int last_v = 2;
 
     for (size_t i = 2; inds.size() < n; i++)
     {
-        v[i] = v[i - 1] + 2 * v[i - 2];
+        v[i] = v[i - 1] + 2 * v[i - 2]; //relation de recurrence de Jacobsthal
         i != 2 ? inds.push_back(v[i]) : (void)0;
 
-        for (int j = v[i] - 1; j > last_v; j++)
+        for (int j = v[i] - 1; j > last_v; j--)
         {
-            inds.push_back(j);
+            inds.push_back(j); //insertion des indices intermediaires entre deux indices de la suite
         }
         
         last_v = v[i];
@@ -85,12 +88,13 @@ int_vect PmergeMe<T>::index(size_t n)
     return (inds);
 }
 
+//Separe le conteneur en paires de valeurs. Si nb impair, dernier element = last, chaque paire contient le plus grand element en premier
 template <typename T>
 typename PmergeMe<T>::vect PmergeMe<T>::pairs(T &data)
 {
     vect pairs;
 
-    if (data.size() % 2 == 0)
+    if (data.size() % 2 != 0)
     {
         last = data.back();
         data.pop_back();
@@ -106,6 +110,7 @@ typename PmergeMe<T>::vect PmergeMe<T>::pairs(T &data)
     return (pairs);
 }
 
+//Tri recursif (tri par fusion) sur chaque paire en se basant sur la premiere valeur de chaque paire
 template <typename T>
 void PmergeMe<T>::sort_pairs(vect &pairs)
 {
@@ -132,6 +137,7 @@ void PmergeMe<T>::sort_pairs(vect &pairs)
         pairs[ind++] = right[rightInd++];
 }
 
+//Recherche binaire dans data pour trouver la position d insertion de l element target. Si valeur n existe pas, retourne l index ou elle devrait etre inseree pour maintenir le tri
 template <typename T>
 int PmergeMe<T>::bin_search(int target)
 {
@@ -153,7 +159,7 @@ int PmergeMe<T>::bin_search(int target)
     return (left);
 }
 
-
+//Divise les donnees en paires, trie les paires, insere les paires au bon index avec recherche binaire, mesure le temps de process
 template <typename T>
 void PmergeMe<T>::sort()
 {
@@ -167,7 +173,7 @@ void PmergeMe<T>::sort()
         time = static_cast<double>(std::clock() - start) / CLOCKS_PER_SEC;
         return ;
     }
-
+    
     sort_pairs(v_pairs);
     
     _data.clear();
@@ -192,6 +198,7 @@ void PmergeMe<T>::sort()
     time = static_cast<double>(std::clock() - start) / CLOCKS_PER_SEC;
 }
 
+//Affiche le contenu de data
 template <typename T>
 void PmergeMe<T>::print_vec() const
 {
@@ -200,12 +207,14 @@ void PmergeMe<T>::print_vec() const
     std::cout << std::endl;
 }
 
+//Affiche le temps de process selon le conteneur utilise
 template <typename T>
 void PmergeMe<T>::time_usage() const
 {
     std::cout << "Time to process a range of " << _data.size() << " elements with std::" << getContainerName<T>() << " : " << std::fixed << std::setprecision(5) << time << " us" << std::endl;
 }
 
+//Verifie si la chaine donnee contient des entiers positifs
 template <typename T>
 bool PmergeMe<T>::isValid(const std::string& str)
 {
@@ -224,6 +233,7 @@ bool PmergeMe<T>::isValid(const std::string& str)
     return (true);
 }
 
+//Convertit une chaine de caracteres en entier
 template <typename T>
 int PmergeMe<T>::ft_stoa(const char *str)
 {
@@ -235,6 +245,7 @@ int PmergeMe<T>::ft_stoa(const char *str)
     return (value);
 }
 
+//Instancie des objets de type vector et deque
 template class PmergeMe<std::vector<int> >;
 template class PmergeMe<std::deque<int> >;
 
