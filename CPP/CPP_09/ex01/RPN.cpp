@@ -6,7 +6,7 @@
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 12:21:15 by laura             #+#    #+#             */
-/*   Updated: 2024/09/18 16:06:15 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:41:47 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void RPN::run(std::string str)
 {
     std::stringstream ss(str);
     std::string op[] = {"+", "-", "*", "/", "^"};
-    
+
     try{
         while (ss >> str)
         {
@@ -138,7 +138,7 @@ std::string RPN::ft_all(const std::string& str, int (*isDigit)(int))
 
     if (str.length() == 1 && (str[0] == '+' || str[0] == '-'))
         valid = false;
-    
+
     if (str.length() == 0)
         valid = false;
     

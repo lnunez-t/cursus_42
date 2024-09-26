@@ -6,7 +6,7 @@
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 12:28:02 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/09/18 15:20:03 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:09:08 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ std::string BitcoinExchange::nextDate(const std::string& date)
 
 bool BitcoinExchange::isLeapYear(int year)
 {
-    return ((year % 4 == 0 && year % 10 != 0) || year % 400 == 0);
+    return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
 }
 
 bool BitcoinExchange::ft_alldigit(const std::string& str, int (*isdigit)(int))
