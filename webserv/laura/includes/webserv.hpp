@@ -6,7 +6,7 @@
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:59:49 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/09/26 16:58:52 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:50:41 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 #include <list>
 #include <vector>
 
+#include "netlibs.hpp"
+
 #define PORT 8080
 #define MAX_EVENTS 10
 #define BUFFER_SIZE 1024
@@ -40,13 +42,11 @@ class configServ
         int port;
         std::string ip;
         std::string root_dir;
-        std::map<std::string, void*> config;
-        std::vector<std::string> keys;
     public:
         configServ();
         ~configServ();
 
         configServ(const configServ& cpy);
         configServ& operator=(const configServ& oth);
-        std::map<std::string, void*> readConfigFile(const std::string &filename);
 };
+

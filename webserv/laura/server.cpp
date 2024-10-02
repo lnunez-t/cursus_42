@@ -6,7 +6,7 @@
 /*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:17:06 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/09/26 13:42:01 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:10:35 by lnunez-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int main(void)
 
     std::cout << "Serveur web en ecoute sur le port " << PORT << std::endl;
 
-    //Creation epoll
+    //Creation epoll : surveille plusieurs fd pour voir si les E/S sont possibles sur l'un d'entre eux
     int epoll_fd = epoll_create(1);
     if (epoll_fd == -1)
     {
