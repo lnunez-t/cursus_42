@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 16:17:06 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/10/02 17:10:35 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:03:31 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "webserv.hpp"
+#include "includes/webserv.hpp"
 
 int set_non_blocking(int fd)
 {
@@ -32,7 +32,7 @@ int set_non_blocking(int fd)
     return (0);
 }
 
-int main(void)
+void run(void)
 {
 
     //Creation d'un socket
@@ -83,7 +83,27 @@ int main(void)
 
     std::cout << "Serveur web en ecoute sur le port " << PORT << std::endl;
 
-    //Creation epoll : surveille plusieurs fd pour voir si les E/S sont possibles sur l'un d'entre eux
+    //sous macos utilisation de kqueue
+    int kq = kqueue();
+    if (kq == -1)
+    {
+        std::cerr << "kqueue creation failed" << std::endl;
+        close (server_fd);
+        return (-1);
+    }
+
+    struct kevent change;
+    EV_SET(&change, server_fd, EVFILT_READ, EV_ADD, 0, 0, NULL);
+    
+    if (kevent(kq, &change, 1, NULL, 0, NULL) == -1)
+    {
+        std::cerr << "Error adding socket server to kqueue" << std::endl;
+        close (kq);
+        close (server_fd);
+        return (-1);
+    }
+
+/*     //Creation epoll sous Linux : surveille plusieurs fd pour voir si les E/S sont possibles sur l'un d'entre eux
     int epoll_fd = epoll_create(1);
     if (epoll_fd == -1)
     {
@@ -103,16 +123,20 @@ int main(void)
         close(epoll_fd);
         close(server_fd);
         return (-1);
-    }
+    } */
 
-    while(true)
+    while(!g_sigint)
     {
-        struct epoll_event events[MAX_EVENTS];
-        int nfds = epoll_wait(epoll_fd, events, MAX_EVENTS, -1);
+        //struct epoll_event events[MAX_EVENTS]; //sous linux
+        struct kevent events[MAX_EVENTS];
+        int nfds = kevent(kq, NULL, 0, events, MAX_EVENTS, NULL);
+        
+        //int nfds = epoll_wait(epoll_fd, events, MAX_EVENTS, -1); //linux
 
         for (int i = 0; i < nfds; i++)
         {
-            if (events[i].data.fd == server_fd)
+            //if (events[i].data.fd == server_fd)
+            if (events[i].ident == server_fd)
             {
                 //Accepte une connexion entrante
                 if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0)
@@ -129,13 +153,23 @@ int main(void)
                     continue;
                 }
 
-                event.events = EPOLLIN;
+                //limux
+                /* event.events = EPOLLIN;
                 event.data.fd = new_socket;
 
                 if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, new_socket, &event) == -1)
                 {
                     std::cerr << "Erreur lors de l'ajout du socket client a epoll" << std::endl;
                     close(new_socket);
+                    continue ;
+                } */ 
+
+                //macOS
+                EV_SET(&change, new_socket, EVFILT_READ, EV_ADD, 0, 0, NULL);
+                if (kevent(kq, &change, 1, NULL, 0, NULL) == -1)
+                {
+                    std::cerr << "Error adding client socket to kqueue" << std::endl;
+                    close (new_socket);
                     continue ;
                 }
 
@@ -145,19 +179,23 @@ int main(void)
             {
                 //Le socket client a des donnees a lire
                 char buffer[1024] = {0};
-                int valread = read(events[i].data.fd, buffer, sizeof(buffer));
+                //int valread = read(events[i].data.fd, buffer, sizeof(buffer)); //linux
+                int valread = read(events[i].ident, buffer, sizeof(buffer)); //macos
 
                 if (valread <= 0)
                 {
-                    close(events[i].data.fd);
+                    //close(events[i].data.fd); //linux
+                    close(events[i].ident); //macos
                     std::cout << "Connexion fermee" << std::endl;
                 }
                 else
                 {
                     //Envoi de la reponse HTTP au client
-                    send(events[i].data.fd, response, strlen(response), 0);
+                    //send(events[i].data.fd, response, strlen(response), 0); //linux
+                    send(events[i].ident, response, strlen(response), 0); //macos
                     std::cout << "Reponse envoyee au client" << std::endl;
-                    close(events[i].data.fd);
+                    //close(events[i].data.fd); //linux
+                    close(events[i].ident); //macos
                 }
             }
         }
@@ -165,7 +203,8 @@ int main(void)
 
     //Fermeture du socket du serveur
     close(server_fd);
-    close(epoll_fd);
+    //close(epoll_fd); //linux
+    close (kq); //macos
 
     return (0);
 }

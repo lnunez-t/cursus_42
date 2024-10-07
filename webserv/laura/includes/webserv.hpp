@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   webserv.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lnunez-t <lnunez-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: laura <laura@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 17:59:49 by lnunez-t          #+#    #+#             */
-/*   Updated: 2024/10/02 16:50:41 by lnunez-t         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:50:33 by laura            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <fcntl.h>
-#include <sys/epoll.h>
+//#include <sys/epoll.h> sous Linux
+#include <sys/event.h> //sous macos
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -29,24 +30,9 @@
 #include <list>
 #include <vector>
 
-#include "netlibs.hpp"
+//#include "netlibs.hpp"
 
 #define PORT 8080
 #define MAX_EVENTS 10
 #define BUFFER_SIZE 1024
-
-
-class configServ
-{
-    private:
-        int port;
-        std::string ip;
-        std::string root_dir;
-    public:
-        configServ();
-        ~configServ();
-
-        configServ(const configServ& cpy);
-        configServ& operator=(const configServ& oth);
-};
 
