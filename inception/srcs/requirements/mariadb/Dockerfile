@@ -1,16 +1,19 @@
+# Description: MariaDB Dockerfile
+
+# pull base image
 FROM debian:bullseye
 
-RUN apt-get update -y
-RUN apt-get upgrade -y
-RUN apt-get install mariadb-server -y
+# update and upgrade the system
+RUN apt-get update && apt-get upgrade -y
 
-RUN mkdir -p /var/run/mysqld \
-&& chown -R mysql:mysql /var/run/mysqld \
-&& chmod 755 /var/run/mysqld
+# # install the required packages
+RUN apt-get install -y mariadb-server netcat
 
-EXPOSE 3306
+# copy file from host to container
+COPY ./conf/mdb-conf.sh /mdb-conf.sh
 
-COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/.
-COPY ./tools/init.sql /etc/mysql/init.sql
+# set permissions to the file
+RUN chmod +x /mdb-conf.sh
 
-CMD ["mysqld"]
+# define entrypoint command to run when the container starts
+ENTRYPOINT ["./mdb-conf.sh"]
